@@ -1,50 +1,50 @@
-import React, { useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, ScrollView} from "react-native";
-import { Input } from "react-native-elements";
+import { StyleSheet } from 'react-native'
+import React, {useState} from 'react'
+import { View, Text, Button, ScrollView } from "react-native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
+import { Link, Stack } from "expo-router";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { supabase } from "../lib/supabase";
+import { Input } from 'react-native-elements';
+{/* <Link href={"/EditSpindle"}></Link> */}
 
-const AddSpindleHistory = ({ navigation }) => {
-  const [machineNo, setMachineNo] = useState("");
-  const [newSpindleNo, setNewSpindleNo] = useState("");
-  const [oldSpindleNo, setOldSpindleNo] = useState("");
-  const [reason, setReason] = useState("");
-  const [status, setStatus] = useState("");
-  const [type, setType] = useState("");
+const EditSpindle = ({ route, navigation }) => {
+    const { spindleId, datamm, refreshData } = route.params; 
+    const [machineNo, setMachineNo] = useState(datamm.machine_no);
+  const [newSpindleNo, setNewSpindleNo] = useState(datamm.new_spindle_no);
+  const [oldSpindleNo, setOldSpindleNo] = useState(datamm.old_spindle_no);
+  const [reason, setReason] = useState(datamm.reason);
+  const [status, setStatus] = useState(datamm.status);
+  const [type, setType] = useState(datamm.type);
 
-  // const statusOptions = [
-  //   { label: "OK", value: "OK" },
-  //   { label: "Not OK", value: "Not OK" },
-  // ];
-
-  const handleSubmit = async () => {
-    try {
-      // Retrieve the user's ID if they are logged in
-      const { data: user } = await supabase.auth.getSession();
-
-      // Create a new spindle history entry
-      const { data, error } = await supabase.from("spindleHistory").insert([
-        {
-          machine_no: machineNo,
-          new_spindle_no: newSpindleNo,
-          old_spindle_no: oldSpindleNo,
-          reason: reason,
-          status: status,
-          type: type,
-          userId: user.session.user.id, // Include user ID if logged in, or null if not
-        },
-      ]);
-
-      if (error) {
-        throw error;
-      }
-
-      // Handle successful submission, e.g., navigate back to the dashboard
-      navigation.navigate("Dashboard");
-    } catch (error) {
-      console.error("Error adding spindle history:", error);
-    }
-  };
-
+    const handleSave = async () => {
+        try {
+          // Update the spindle history entry with the new data
+          const { error } = await supabase
+            .from("spindleHistory")
+            .update({
+              machine_no: machineNo,
+              new_spindle_no: newSpindleNo,
+              old_spindle_no: oldSpindleNo,
+              reason: reason,
+              status: status,
+              type: type,
+            })
+            .eq("id", spindleId);
+    
+          if (error) {
+            throw error;
+          }
+    
+          // Call the refreshData callback to refresh the data in Dashboard
+          refreshData();
+    
+          // Navigate back to the Dashboard
+          navigation.navigate("Dashboard");
+        } catch (error) {
+          console.error("Error updating spindle data:", error);
+        }
+      };
   return (
     <ScrollView style={{padding:20,}}>
       <Text style={{fontWeight:"800"}}>Machine No:</Text>
@@ -225,34 +225,13 @@ const AddSpindleHistory = ({ navigation }) => {
       </TouchableOpacity>
       {/* Add similar inputs for other fields: oldSpindleNo, reason, status, type */}
 
-      <TouchableOpacity style={{backgroundColor:"#262626",padding:20,width:"100%",marginVertical:30, borderRadius:10, alignItems:"center"}} onPress={handleSubmit}>
-        <Text style={{color:"#fff"}}>Add Spindle History</Text>
+      <TouchableOpacity style={{backgroundColor:"#262626",padding:20,width:"100%",marginVertical:30, borderRadius:10, alignItems:"center"}} onPress={handleSave}>
+        <Text style={{color:"#fff"}}>Edit Spindle History</Text>
       </TouchableOpacity>
     </ScrollView>
-  );
-};
+  )
+}
 
-export default AddSpindleHistory;
+export default EditSpindle
 
-const pickerSelectStyles = StyleSheet.create({
-  inputIOS: {
-    fontSize: 16,
-    paddingVertical: 12,
-    paddingHorizontal: 10,
-    borderWidth: 1,
-    borderColor: "gray",
-    borderRadius: 4,
-    color: "black",
-    paddingRight: 30,
-  },
-  inputAndroid: {
-    fontSize: 16,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
-    borderWidth: 0.5,
-    borderColor: "purple",
-    borderRadius: 8,
-    color: "black",
-    paddingRight: 30,
-  },
-});
+const styles = StyleSheet.create({})

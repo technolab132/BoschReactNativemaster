@@ -3,13 +3,12 @@ import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, ScrollView
 import { Input } from "react-native-elements";
 import { supabase } from "../lib/supabase";
 
-const AddSpindleHistory = ({ navigation }) => {
+const AddFeedback = ({ navigation }) => {
   const [machineNo, setMachineNo] = useState("");
-  const [newSpindleNo, setNewSpindleNo] = useState("");
-  const [oldSpindleNo, setOldSpindleNo] = useState("");
-  const [reason, setReason] = useState("");
+  const [problem, setProblem] = useState("");
+  const [action, setAction] = useState("");
+  const [responsible, setResponsible] = useState("");
   const [status, setStatus] = useState("");
-  const [type, setType] = useState("");
 
   // const statusOptions = [
   //   { label: "OK", value: "OK" },
@@ -22,15 +21,14 @@ const AddSpindleHistory = ({ navigation }) => {
       const { data: user } = await supabase.auth.getSession();
 
       // Create a new spindle history entry
-      const { data, error } = await supabase.from("spindleHistory").insert([
+      const { data, error } = await supabase.from("feedback").insert([
         {
           machine_no: machineNo,
-          new_spindle_no: newSpindleNo,
-          old_spindle_no: oldSpindleNo,
-          reason: reason,
+          problem: problem,
+          action: action,
+          responsible: responsible,
           status: status,
-          type: type,
-          userId: user.session.user.id, // Include user ID if logged in, or null if not
+          user_id: user.session.user.id, // Include user ID if logged in, or null if not
         },
       ]);
 
@@ -39,9 +37,9 @@ const AddSpindleHistory = ({ navigation }) => {
       }
 
       // Handle successful submission, e.g., navigate back to the dashboard
-      navigation.navigate("Dashboard");
+      navigation.navigate("Feedback");
     } catch (error) {
-      console.error("Error adding spindle history:", error);
+      console.error("Error adding feedback:", error);
     }
   };
 
@@ -53,18 +51,18 @@ const AddSpindleHistory = ({ navigation }) => {
         onChangeText={(text) => setNewSpindleNo(text)}
         value={newSpindleNo}
       /> */}
-      <Text style={{fontWeight:"800"}}>New Spindle No:</Text>
-      <Input onChangeText={(text) => setNewSpindleNo(text)} value={newSpindleNo} keyboardType="number-pad"/>
+      <Text style={{fontWeight:"800"}}>Problem :</Text>
+      <Input onChangeText={(text) => setProblem(text)} value={problem}/>
       {/* <TextInput
         onChangeText={(text) => setOldSpindleNo(text)}
         value={oldSpindleNo}
       />       */}
-      <Text style={{fontWeight:"800"}}>Old Spindle No:</Text>
-      <Input onChangeText={(text) => setOldSpindleNo(text)} value={oldSpindleNo} keyboardType="number-pad"/>
+      <Text style={{fontWeight:"800"}}>Action :</Text>
+      <Input onChangeText={(text) => setAction(text)} value={action} />
 
       {/* <TextInput onChangeText={(text) => setReason(text)} value={reason} /> */}
-      <Text style={{fontWeight:"800"}}>Reason:</Text>
-      <Input onChangeText={(text) => setReason(text)} value={reason}/>
+      <Text style={{fontWeight:"800"}}>Responsible :</Text>
+      <Input onChangeText={(text) => setResponsible(text)} value={responsible}/>
       {/* <TextInput
         onChangeText={(text) => setStatus(text)}
         value={status}
@@ -162,77 +160,17 @@ const AddSpindleHistory = ({ navigation }) => {
         </View>
         <Text>Pending</Text>
       </TouchableOpacity>
-      <Text style={{paddingVertical:20, fontWeight:"800"}}>Select Type:</Text>
-      <TouchableOpacity
-        onPress={() => setType("Bore")} // Set the third option
-        style={{ flexDirection: "row", alignItems: "center" }}
-      >
-        <View
-          style={{
-            width: 20,
-            height: 20,
-            borderRadius: 10,
-            marginVertical:10,
-            borderWidth: 2,
-            borderColor: status === "Other" ? "black" : "gray",
-            marginRight: 10,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          {type === "Bore" && (
-            <View
-              style={{
-                width: 12,
-                height: 12,
-                borderRadius: 6,
-                backgroundColor: "black",
-              }}
-            />
-          )}
-        </View>
-        <Text>Bore</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => setType("Spindle")} // Set the third option
-        style={{ flexDirection: "row", alignItems: "center" }}
-      >
-        <View
-          style={{
-            width: 20,
-            height: 20,
-            borderRadius: 10,
-            marginVertical:10,
-            borderWidth: 2,
-            borderColor: status === "Other" ? "black" : "gray",
-            marginRight: 10,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          {type === "Spindle" && (
-            <View
-              style={{
-                width: 12,
-                height: 12,
-                borderRadius: 6,
-                backgroundColor: "black",
-              }}
-            />
-          )}
-        </View>
-        <Text>Spindle</Text>
-      </TouchableOpacity>
+      
       {/* Add similar inputs for other fields: oldSpindleNo, reason, status, type */}
 
       <TouchableOpacity style={{backgroundColor:"#262626",padding:20,width:"100%",marginVertical:30, borderRadius:10, alignItems:"center"}} onPress={handleSubmit}>
-        <Text style={{color:"#fff"}}>Add Spindle History</Text>
+        <Text style={{color:"#fff"}}>Add Feedback</Text>
       </TouchableOpacity>
     </ScrollView>
   );
 };
 
-export default AddSpindleHistory;
+export default AddFeedback;
 
 const pickerSelectStyles = StyleSheet.create({
   inputIOS: {

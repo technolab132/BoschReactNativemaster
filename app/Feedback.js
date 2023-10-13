@@ -9,14 +9,14 @@ import { supabase } from "../lib/supabase";
 const Dashboard = ({ navigation, refreshData }) => {
   const [loading, setLoading] = useState(false);
   const isFocused = useIsFocused();
-  const [spindleData, setSpindleData] = useState([]);
+  const [feedbackData, setFeedbackData] = useState([]);
 
-  const fetchSpindleData = async () => {
+  const fetchFeedbacks = async () => {
     try {
       setLoading(true);
 
       // Fetch the latest data from Supabase
-      const { data, error, status } = await supabase.from("spindleHistory")
+      const { data, error, status } = await supabase.from("feedback")
         .select(`
           *,
           profiles (
@@ -24,35 +24,36 @@ const Dashboard = ({ navigation, refreshData }) => {
           )
         `);
 
+
       if (error && status !== 406) {
         throw error;
       }
 
-      if (spindleData) {
-        setSpindleData(data);
+      if (feedbackData) {
+        setFeedbackData(data);
       }
     } catch (error) {
-      console.error("Error fetching spindleData:", error);
+      console.error("Error fetching fedeback:", error);
     } finally {
       setLoading(false);
     }
   };
 
   // Use useCallback to memoize the fetchSpindleData function
-  const memoizedFetchSpindleData = useCallback(fetchSpindleData, []);
+  const memoizedFetchFeedbackData = useCallback(fetchFeedbacks, []);
 
   useEffect(() => {
     // Fetch initial data when the component mounts or when it is focused
     if (isFocused) {
-      memoizedFetchSpindleData();
+      memoizedFetchFeedbackData();
     }
-  }, [isFocused, memoizedFetchSpindleData]);
+  }, [isFocused, memoizedFetchFeedbackData]);
 
   return (
     <View>
       <Stack.Screen
         options={{
-          title: "Spindle History",
+          title: "Feedbacks",
           headerTitleStyle: {
             fontSize: 15,
           },
@@ -66,7 +67,7 @@ const Dashboard = ({ navigation, refreshData }) => {
       {loading ? (
         <ScrollView>
         <View
-          style={{ flex: 1, justifyContent: "center",padding:20, alignItems: "center" }}
+          style={{ flex: 1, padding:20, justifyContent: "center", alignItems: "center" }}
         >
           <Text style={{ color: "#000", fontWeight:"bold" }}>Loading data . . </Text>
         </View>
@@ -75,7 +76,7 @@ const Dashboard = ({ navigation, refreshData }) => {
         <>
           <ScrollView showsVerticalScrollIndicator={false}>
             <View style={{ flex: 1, padding: 15, backgroundColor: "#fff" }}>
-              {spindleData?.slice().reverse().map((data, index) => (
+              {feedbackData?.slice().reverse().map((data, index) => (
                 // <Link
                 //   style={{
                 //     color: "#d6d6d6",
@@ -104,10 +105,13 @@ const Dashboard = ({ navigation, refreshData }) => {
                     Mac. No : {data["machine_no"]}
                   </Text>
                   <Text style={{ paddingVertical: 5 }}>
-                    New Spindle No : {data["new_spindle_no"]}
+                    Problem : {data["problem"]}
                   </Text>
                   <Text style={{ paddingVertical: 5 }}>
-                    Old Spindle No : {data["old_spindle_no"]}
+                    Action : {data["action"]}
+                  </Text>
+                  <Text style={{ paddingVertical: 5 }}>
+                    Responsible : {data["responsible"]}
                   </Text>
                   {/* <Text style={{ paddingVertical: 5 }}>Status : </Text> */}
                   <Text
@@ -121,10 +125,7 @@ const Dashboard = ({ navigation, refreshData }) => {
                   >
                     {data["status"]}
                   </Text>
-                  <Text style={{ paddingVertical: 5 }}>{data["reason"]}</Text>
-                  <Text style={{ paddingVertical: 5 }}>
-                    Type: {data["type"]}
-                  </Text>
+                  
                   <Text style={{ paddingVertical: 5 }}>
                     User : {data.profiles?.username}
                   </Text>
@@ -134,10 +135,10 @@ const Dashboard = ({ navigation, refreshData }) => {
                   <Button
                     title="Edit"
                     onPress={() =>
-                      navigation.navigate("EditSpindle", {
-                        spindleId: data?.id,
+                      navigation.navigate("EditFeedback", {
+                        feedbackId: data?.id,
                         datamm: data,
-                        refreshData: memoizedFetchSpindleData,
+                        refreshData: memoizedFetchFeedbackData,
                       })
                     }
                   />

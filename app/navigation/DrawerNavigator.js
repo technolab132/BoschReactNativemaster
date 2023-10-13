@@ -1,6 +1,6 @@
 // app/navigation/DrawerNavigator.js
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { NavigationContainer } from "@react-navigation/native";
+import { Link, NavigationContainer } from "@react-navigation/native";
 import React from "react";
 import Account from "../Account"; // Your Account component
 import Dashboard from "../Dashboard"; // Your Dashboard component
@@ -9,6 +9,10 @@ import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { Image, Text } from "react-native";
 import AddSpindleHistory from "../AddSpindleHistory";
+import EditSpindle from "../EditSpindle";
+import Feedback from "../Feedback";
+import AddFeedback from "../AddFeedback";
+import EditFeedback from "../EditFeedback";
 
 const Drawer = createDrawerNavigator();
 
@@ -39,9 +43,13 @@ const DrawerNavigator = () => {
         }}
       />
       <Drawer.Navigator drawerContent={(props) => <Sidebar {...props} />}>
-        <Drawer.Screen name="Dashboard" component={Dashboard} />
         <Drawer.Screen name="Account" component={Account} />
+        <Drawer.Screen name="Dashboard" component={Dashboard} />
+        <Drawer.Screen name="Feedback" component={Feedback} />
+        <Drawer.Screen name="EditSpindle" component={EditSpindle} />
+        <Drawer.Screen name="EditFeedback" component={EditFeedback} />
         <Drawer.Screen name="AddSpindleHistory" component={AddSpindleHistory} />
+        <Drawer.Screen name="AddFeedback" component={AddFeedback} />
       </Drawer.Navigator>
     </>
     // <NavigationContainer>

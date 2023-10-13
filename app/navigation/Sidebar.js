@@ -6,8 +6,25 @@ import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 const Sidebar = ({ navigation }) => {
   return (
     <DrawerContentScrollView>
-      <TouchableOpacity style={{backgroundColor:"#fff", padding:15}} onPress={() => navigation.navigate("AddSpindleHistory")}>
+      <Text style={{padding:15, fontSize:20, fontWeight:"bold"}}>Spindle History</Text>
+      {/* <Text style={{paddingHorizontal:15, fontSize:20, fontWeight:"bold"}}>----------------</Text> */}
+
+      
+      <TouchableOpacity style={{backgroundColor:"#ededed", marginHorizontal:15,marginVertical:8, padding:10}} onPress={() => navigation.navigate("Dashboard")}>
+        <Text>View All</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={{backgroundColor:"#ededed", marginHorizontal:15,marginBottom:15, padding:10}} onPress={() => navigation.navigate("AddSpindleHistory")}>
         <Text>Add Spindle History</Text>
+      </TouchableOpacity>
+
+      <Text style={{padding:15, fontSize:20, fontWeight:"bold"}}>Feedbacks</Text>
+      {/* <Text style={{paddingHorizontal:15, fontSize:20, fontWeight:"bold"}}>----------------</Text> */}
+
+      <TouchableOpacity style={{backgroundColor:"#ededed", marginHorizontal:15,marginVertical:8, padding:10}} onPress={() => navigation.navigate("Feedback")}>
+        <Text>View All</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={{backgroundColor:"#ededed", marginHorizontal:15,marginBottom:15, padding:10}} onPress={() => navigation.navigate("AddFeedback")}>
+        <Text>Add Feedbacks</Text>
       </TouchableOpacity>
       {/* <DrawerItem
         label="Account"
