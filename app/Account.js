@@ -106,8 +106,12 @@ const Account = ({navigation}) => {
       <Input onChangeText={(text) => setFullname(text)} value={fullname}/>
       <Text style={{fontWeight:"800"}}>Email:</Text>
       <Input disabled onChangeText={(text) => setEmail(text)} value={email} placeholder={email}/>
-        <Button buttonStyle={{backgroundColor:"green", marginBottom:20}} title="Save" onPress={handleSave} />
-        <Button title="Sign Out" onPress={() => supabase.auth.signOut()} />
+      {/* <View style={{display:"flex",flexDirection:"row", justifyContent:"space-between", alignItems:"center", marginBottom:30}}> */}
+      <Button buttonStyle={{backgroundColor:"green", marginBottom:20}} title="Save" onPress={handleSave} />
+        <Button buttonStyle={{backgroundColor:"red", marginBottom:20}} title="Sign Out" onPress={() => supabase.auth.signOut()} />
+      {/* </View> */}
+        
+        <Button buttonStyle={{backgroundColor:"orange", marginBottom:20}} title="Go to Dashboard" onPress={() => navigation.navigate("Dashboard")} />
       </ScrollView>
       )}
       

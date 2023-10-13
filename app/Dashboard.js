@@ -110,7 +110,21 @@ const Dashboard = ({ navigation, refreshData }) => {
                     Old Spindle No : {data["old_spindle_no"]}
                   </Text>
                   {/* <Text style={{ paddingVertical: 5 }}>Status : </Text> */}
-                  <Text
+                  {data["status"] === "Not OK" && (
+                    <Text
+                    style={{
+                      backgroundColor: "#ff0000",
+                      padding: 10,
+                      position: "absolute",
+                      top: 0,
+                      right: 0,
+                    }}
+                  >
+                    {data["status"]}
+                  </Text>
+                  )}
+                  {data["status"] === "OK" && (
+                    <Text
                     style={{
                       backgroundColor: "#00ff00",
                       padding: 10,
@@ -121,11 +135,26 @@ const Dashboard = ({ navigation, refreshData }) => {
                   >
                     {data["status"]}
                   </Text>
+                  )}
+                  {data["status"] === "Pending" && (
+                    <Text
+                    style={{
+                      backgroundColor: "yellow",
+                      padding: 10,
+                      position: "absolute",
+                      top: 0,
+                      right: 0,
+                    }}
+                  >
+                    {data["status"]}
+                  </Text>
+                  )}
+                  
                   <Text style={{ paddingVertical: 5 }}>{data["reason"]}</Text>
                   <Text style={{ paddingVertical: 5 }}>
                     Type: {data["type"]}
                   </Text>
-                  <Text style={{ paddingVertical: 5 }}>
+                  <Text style={{ paddingVertical: 5, fontWeight:"bold", color:"blue"}}>
                     User : {data.profiles?.username}
                   </Text>
                   <Text style={{ paddingVertical: 5 }}>
