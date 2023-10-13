@@ -37,6 +37,8 @@ const Auth = () => {
       <Stack.Screen
         options={{
           headerStyle: { backgroundColor: "#fff" },
+          statusBarColor:"white",
+          statusBarStyle:"dark",
           headerStatusBarHeight: StatusBar.currentHeight,
           headerShadowVisible: true,
           title: "",

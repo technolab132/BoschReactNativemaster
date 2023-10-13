@@ -4,10 +4,26 @@
     "web": {
       "bundler": "metro"
     },
+    "splash" : {
+      "image" : "./assets/spal.png",
+      "resizeMode" : "contain",
+      "backgroundColor" : "#ffffff"
+    },
     "plugins": [
       "expo-router"
     ],
     "name": "BoschReactNative",
-    "slug": "BoschReactNative"
+    "slug": "BoschReactNative",
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "fe73b743-467c-4f28-b7b9-c478b4b36c76"
+      }
+    },
+    "android": {
+      "package": "com.krishna13.BoschReactNative"
+    }
   }
 }
