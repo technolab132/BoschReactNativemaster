@@ -27,6 +27,7 @@ const Auth = () => {
       email: email,
       password: password,
     });
+    
 
     if (error) Alert.alert(error.message);
     setLoading(false);
@@ -61,6 +62,7 @@ const Auth = () => {
       />
 
       <View style={styles.container}>
+        
         <View style={[styles.verticallySpaced, styles.mt20]}>
           <Input
             label="Email"

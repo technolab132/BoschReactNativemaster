@@ -13,6 +13,7 @@ import EditSpindle from "../EditSpindle";
 import Feedback from "../Feedback";
 import AddFeedback from "../AddFeedback";
 import EditFeedback from "../EditFeedback";
+import Auth from "../Auth";
 
 const Drawer = createDrawerNavigator();
 
@@ -46,8 +47,9 @@ const DrawerNavigator = () => {
       />
       <Drawer.Navigator drawerContent={(props) => <Sidebar {...props} />}>
         <Drawer.Screen name="Account" component={Account} />
-        <Drawer.Screen name="Dashboard" component={Dashboard} />
         <Drawer.Screen name="Feedback" component={Feedback} />
+        <Drawer.Screen name="Auth" component={Auth} />
+        <Drawer.Screen name="Dashboard" component={Dashboard} />
         <Drawer.Screen name="EditSpindle" component={EditSpindle} />
         <Drawer.Screen name="EditFeedback" component={EditFeedback} />
         <Drawer.Screen name="AddSpindleHistory" component={AddSpindleHistory} />

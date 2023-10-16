@@ -6,28 +6,27 @@ import { createAppContainer } from "react-navigation";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { useCallback, useEffect, useState } from "react";
 import { useIsFocused } from "@react-navigation/native";
-// import { AccountScreen,SpindleScreen } from "../screens";
 
-
-const Account = ({navigation}) => {
+const Account = ({ navigation }) => {
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState(null);
   const [userMasterData, setUserMasterData] = useState(null);
 
-  const [username, setUsername] = useState("")
-  const [empid, setEmpid] = useState("")
-  const [fullname, setFullname] = useState("")
-  const [email, setEmail] = useState("")
-  const [useridd, setuseridd] = useState("")
+  const [username, setUsername] = useState("");
+  const [empid, setEmpid] = useState("");
+  const [fullname, setFullname] = useState("");
+  const [email, setEmail] = useState("");
+  const [useridd, setuseridd] = useState("");
+
   const fetchAccount = async () => {
     try {
       setLoading(true);
 
       // Check if a user is authenticated
       const { data: user } = await supabase.auth.getSession();
-      setUserMasterData(user.session.user)
-      setEmail(user.session.user.email)
-      setuseridd(user.session.user.id)
+      setUserMasterData(user.session.user);
+      setEmail(user.session.user.email);
+      setuseridd(user.session.user.id);
 
       if (!user) {
         setLoading(false);
@@ -35,20 +34,25 @@ const Account = ({navigation}) => {
       }
 
       // Fetch the user's data from Supabase using their user ID
-      const { data, error } = await supabase.from("profiles").select("*").eq("id", user.session.user.id);
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", user.session.user.id);
       console.log(data);
 
-      // if (data) {
-      //   setUsername(data[0].username)
-      // }
+      if (data) {
+        setUsername(data[0].username);
+        setEmpid(data[0].empid);
+        setFullname(data[0].full_name);
+
+        // Check if full name, emp id, and username are already present, and if so, navigate to the dashboard.
+        if (data[0].full_name && data[0].empid && data[0].username) {
+          navigation.navigate("Feedback");
+        }
+      }
 
       if (error) {
         console.error("Error fetching user data:", error);
-      } else {
-        // setUserData(data);
-        setUsername(data[0].username)
-        setEmpid(data[0].empid)
-        setFullname(data[0].full_name)
       }
     } finally {
       setLoading(false);
@@ -61,26 +65,26 @@ const Account = ({navigation}) => {
 
   const handleSave = async () => {
     try {
-      setLoading(true)
-      const {data, error} = await supabase.from("profiles").upsert([
+      setLoading(true);
+      const { data, error } = await supabase.from("profiles").upsert([
         {
           username: username,
           empid: empid,
           full_name: fullname,
-          id:useridd
-        }
-      ])
+          id: useridd,
+        },
+      ]);
       if (error) {
-        throw error
+        throw error;
       }
-      setLoading(false)
-      navigation.navigate("Dashboard")
+      setLoading(false);
+      navigation.navigate("Dashboard");
     } catch (error) {
       console.log(error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <View>
@@ -91,30 +95,52 @@ const Account = ({navigation}) => {
         }}
       />
       {loading ? (
-<ScrollView><View
-          style={{ flex: 1, justifyContent: "center",padding:20, alignItems: "center" }}
-        >
-          <Text style={{ color: "#000", fontWeight:"bold" }}>Loading Please Wait . . </Text>
-        </View></ScrollView>
+        <ScrollView>
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              padding: 20,
+              alignItems: "center",
+            }}
+          >
+            <Text style={{ color: "#000", fontWeight: "bold" }}>
+              Loading Please Wait . .{" "}
+            </Text>
+          </View>
+        </ScrollView>
       ) : (
-<ScrollView style={styles.verticallySpaced}>
-      <Text style={{fontWeight:"800"}}>Username:</Text>
-      <Input onChangeText={(text) => setUsername(text)} value={username}/>
-      <Text style={{fontWeight:"800"}}>Emp Id:</Text>
-      <Input onChangeText={(text) => setEmpid(text)} value={empid}/>
-      <Text style={{fontWeight:"800"}}>Full Name:</Text>
-      <Input onChangeText={(text) => setFullname(text)} value={fullname}/>
-      <Text style={{fontWeight:"800"}}>Email:</Text>
-      <Input disabled onChangeText={(text) => setEmail(text)} value={email} placeholder={email}/>
-      {/* <View style={{display:"flex",flexDirection:"row", justifyContent:"space-between", alignItems:"center", marginBottom:30}}> */}
-      <Button buttonStyle={{backgroundColor:"green", marginBottom:20}} title="Save" onPress={handleSave} />
-        <Button buttonStyle={{backgroundColor:"red", marginBottom:20}} title="Sign Out" onPress={() => supabase.auth.signOut()} />
-      {/* </View> */}
-        
-        <Button buttonStyle={{backgroundColor:"orange", marginBottom:20}} title="Go to Dashboard" onPress={() => navigation.navigate("Dashboard")} />
-      </ScrollView>
+        <ScrollView style={styles.verticallySpaced}>
+          <Text style={{ fontWeight: "800" }}>Username:</Text>
+          <Input onChangeText={(text) => setUsername(text)} value={username} />
+          <Text style={{ fontWeight: "800" }}>Emp Id:</Text>
+          <Input onChangeText={(text) => setEmpid(text)} value={empid} />
+          <Text style={{ fontWeight: "800" }}>Full Name:</Text>
+          <Input onChangeText={(text) => setFullname(text)} value={fullname} />
+          <Text style={{ fontWeight: "800" }}>Email:</Text>
+          <Input
+            disabled
+            onChangeText={(text) => setEmail(text)}
+            value={email}
+            placeholder={email}
+          />
+          <Button
+            buttonStyle={{ backgroundColor: "green", marginBottom: 20 }}
+            title="Save"
+            onPress={handleSave}
+          />
+          <Button
+            buttonStyle={{ backgroundColor: "red", marginBottom: 20 }}
+            title="Sign Out"
+            onPress={() => supabase.auth.signOut()}
+          />
+          <Button
+            buttonStyle={{ backgroundColor: "orange", marginBottom: 20 }}
+            title="Go to Dashboard"
+            onPress={() => navigation.navigate("Dashboard")}
+          />
+        </ScrollView>
       )}
-      
     </View>
   );
 };
@@ -129,7 +155,7 @@ const styles = StyleSheet.create({
   verticallySpaced: {
     paddingTop: 10,
     paddingBottom: 4,
-    paddingHorizontal:16,
+    paddingHorizontal: 16,
     alignSelf: "stretch",
   },
   mt20: {

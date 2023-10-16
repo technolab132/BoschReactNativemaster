@@ -12,7 +12,8 @@
     "plugins": [
       "expo-router"
     ],
-    "name": "BoschReactNative",
+    "icon" : "./assets/ico.png",
+    "name": "Bosch",
     "slug": "BoschReactNative",
     "extra": {
       "router": {
@@ -23,7 +24,11 @@
       }
     },
     "android": {
-      "package": "com.krishna13.BoschReactNative"
+      "package": "com.krishna13.BoschReactNative",
+      "adaptiveIcon" : {
+        "foregroundImage" : "./assets/adap.png",
+        "backgroundColor" : "#ffffff"
+      }
     }
   }
 }

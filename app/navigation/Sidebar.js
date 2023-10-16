@@ -2,6 +2,7 @@
 import React from "react";
 import { View, Text, Button, TouchableOpacity } from "react-native";
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
+import { supabase } from "../../lib/supabase";
 
 const Sidebar = ({ navigation }) => {
   return (
@@ -26,6 +27,10 @@ const Sidebar = ({ navigation }) => {
       <TouchableOpacity style={{backgroundColor:"#ededed", marginHorizontal:15,marginBottom:15, padding:10}} onPress={() => navigation.navigate("AddFeedback")}>
         <Text>Add Feedbacks</Text>
       </TouchableOpacity>
+      <TouchableOpacity style={{backgroundColor:"#ededed", marginHorizontal:15,marginBottom:15, padding:10}} onPress={() => supabase.auth.signOut()}>
+        <Text>Sign out</Text>
+      </TouchableOpacity>
+      
       {/* <DrawerItem
         label="Account"
         onPress={() => navigation.navigate("Account")}

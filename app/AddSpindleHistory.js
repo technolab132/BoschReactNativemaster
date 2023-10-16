@@ -1,9 +1,18 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, ScrollView} from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 import { Input } from "react-native-elements";
 import { supabase } from "../lib/supabase";
 
 const AddSpindleHistory = ({ navigation }) => {
+  const [loading, setLoading] = useState(false);
   const [machineNo, setMachineNo] = useState("");
   const [newSpindleNo, setNewSpindleNo] = useState("");
   const [oldSpindleNo, setOldSpindleNo] = useState("");
@@ -17,7 +26,11 @@ const AddSpindleHistory = ({ navigation }) => {
   // ];
 
   const handleSubmit = async () => {
+    if (loading) {
+      return;
+    }
     try {
+      setLoading(true);
       // Retrieve the user's ID if they are logged in
       const { data: user } = await supabase.auth.getSession();
 
@@ -40,36 +53,56 @@ const AddSpindleHistory = ({ navigation }) => {
 
       // Handle successful submission, e.g., navigate back to the dashboard
       navigation.navigate("Dashboard");
+      setMachineNo("");
+      setNewSpindleNo("");
+      setOldSpindleNo("");
+      setReason("");
+      setStatus("");
+      setType("");
     } catch (error) {
       console.error("Error adding spindle history:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <ScrollView style={{padding:20,}}>
-      <Text style={{fontWeight:"800"}}>Machine No:</Text>
-      <Input onChangeText={(text) => setMachineNo(text)} value={machineNo} keyboardType="number-pad"/>
+    <ScrollView style={{ padding: 20 }}>
+      <Text style={{ fontWeight: "800" }}>Machine No:</Text>
+      <Input
+        onChangeText={(text) => setMachineNo(text)}
+        value={machineNo}
+        keyboardType="number-pad"
+      />
       {/* <TextInput
         onChangeText={(text) => setNewSpindleNo(text)}
         value={newSpindleNo}
       /> */}
-      <Text style={{fontWeight:"800"}}>New Spindle No:</Text>
-      <Input onChangeText={(text) => setNewSpindleNo(text)} value={newSpindleNo} keyboardType="number-pad"/>
+      <Text style={{ fontWeight: "800" }}>New Spindle No:</Text>
+      <Input
+        onChangeText={(text) => setNewSpindleNo(text)}
+        value={newSpindleNo}
+        keyboardType="number-pad"
+      />
       {/* <TextInput
         onChangeText={(text) => setOldSpindleNo(text)}
         value={oldSpindleNo}
       />       */}
-      <Text style={{fontWeight:"800"}}>Old Spindle No:</Text>
-      <Input onChangeText={(text) => setOldSpindleNo(text)} value={oldSpindleNo} keyboardType="number-pad"/>
+      <Text style={{ fontWeight: "800" }}>Old Spindle No:</Text>
+      <Input
+        onChangeText={(text) => setOldSpindleNo(text)}
+        value={oldSpindleNo}
+        keyboardType="number-pad"
+      />
 
       {/* <TextInput onChangeText={(text) => setReason(text)} value={reason} /> */}
-      <Text style={{fontWeight:"800"}}>Reason:</Text>
-      <Input onChangeText={(text) => setReason(text)} value={reason}/>
+      <Text style={{ fontWeight: "800" }}>Reason:</Text>
+      <Input onChangeText={(text) => setReason(text)} value={reason} />
       {/* <TextInput
         onChangeText={(text) => setStatus(text)}
         value={status}
       /> */}
-      <Text style={{fontWeight:"800"}}>Select Status:</Text>
+      <Text style={{ fontWeight: "800" }}>Select Status:</Text>
       <TouchableOpacity
         onPress={() => setStatus("OK")}
         style={{ flexDirection: "row", alignItems: "center" }}
@@ -79,7 +112,7 @@ const AddSpindleHistory = ({ navigation }) => {
             width: 20,
             height: 20,
             borderRadius: 10,
-            marginVertical:10,
+            marginVertical: 10,
             borderWidth: 2,
             borderColor: status === "OK" ? "black" : "gray",
             marginRight: 10,
@@ -110,7 +143,7 @@ const AddSpindleHistory = ({ navigation }) => {
             width: 20,
             height: 20,
             borderRadius: 10,
-            marginVertical:10,
+            marginVertical: 10,
             borderWidth: 2,
             borderColor: status === "Not OK" ? "black" : "gray",
             marginRight: 10,
@@ -141,7 +174,7 @@ const AddSpindleHistory = ({ navigation }) => {
             width: 20,
             height: 20,
             borderRadius: 10,
-            marginVertical:10,
+            marginVertical: 10,
             borderWidth: 2,
             borderColor: status === "Other" ? "black" : "gray",
             marginRight: 10,
@@ -162,7 +195,9 @@ const AddSpindleHistory = ({ navigation }) => {
         </View>
         <Text>Pending</Text>
       </TouchableOpacity>
-      <Text style={{paddingVertical:20, fontWeight:"800"}}>Select Type:</Text>
+      <Text style={{ paddingVertical: 20, fontWeight: "800" }}>
+        Select Type:
+      </Text>
       <TouchableOpacity
         onPress={() => setType("Bore")} // Set the third option
         style={{ flexDirection: "row", alignItems: "center" }}
@@ -172,7 +207,7 @@ const AddSpindleHistory = ({ navigation }) => {
             width: 20,
             height: 20,
             borderRadius: 10,
-            marginVertical:10,
+            marginVertical: 10,
             borderWidth: 2,
             borderColor: status === "Other" ? "black" : "gray",
             marginRight: 10,
@@ -202,7 +237,7 @@ const AddSpindleHistory = ({ navigation }) => {
             width: 20,
             height: 20,
             borderRadius: 10,
-            marginVertical:10,
+            marginVertical: 10,
             borderWidth: 2,
             borderColor: status === "Other" ? "black" : "gray",
             marginRight: 10,
@@ -224,10 +259,21 @@ const AddSpindleHistory = ({ navigation }) => {
         <Text>Spindle</Text>
       </TouchableOpacity>
       {/* Add similar inputs for other fields: oldSpindleNo, reason, status, type */}
-
-      <TouchableOpacity style={{backgroundColor:"#262626",padding:20,width:"100%",marginVertical:30, borderRadius:10, alignItems:"center"}} onPress={handleSubmit}>
-        <Text style={{color:"#fff"}}>Add Spindle History</Text>
-      </TouchableOpacity>
+      {!loading && (
+        <TouchableOpacity
+          style={{
+            backgroundColor: "#262626",
+            padding: 20,
+            width: "100%",
+            marginVertical: 30,
+            borderRadius: 10,
+            alignItems: "center",
+          }}
+          onPress={handleSubmit}
+        >
+          <Text style={{ color: "#fff" }}>Add Spindle History</Text>
+        </TouchableOpacity>
+      )}
     </ScrollView>
   );
 };
