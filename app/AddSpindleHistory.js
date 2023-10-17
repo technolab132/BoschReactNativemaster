@@ -18,6 +18,7 @@ const AddSpindleHistory = ({ navigation }) => {
   const [oldSpindleNo, setOldSpindleNo] = useState("");
   const [reason, setReason] = useState("");
   const [status, setStatus] = useState("");
+  const [machineNumbers, setMachineNumbers] = useState([]);
   const [type, setType] = useState("");
 
   // const statusOptions = [
@@ -53,6 +54,7 @@ const AddSpindleHistory = ({ navigation }) => {
 
       // Handle successful submission, e.g., navigate back to the dashboard
       navigation.navigate("Dashboard");
+      fetchMachineNumbers()
       setMachineNo("");
       setNewSpindleNo("");
       setOldSpindleNo("");
@@ -63,6 +65,23 @@ const AddSpindleHistory = ({ navigation }) => {
       console.error("Error adding spindle history:", error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchMachineNumbers = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("spindleHistory")
+        .select("machine_no");
+
+      if (data && !error) {
+        const uniqueMachineNumbers = Array.from(
+          new Set(data.map((item) => item.machine_no))
+        );
+        setMachineNumbers(uniqueMachineNumbers);
+      }
+    } catch (error) {
+      console.error("Error fetching machine numbers:", error);
     }
   };
 
@@ -229,7 +248,7 @@ const AddSpindleHistory = ({ navigation }) => {
         <Text>Bore</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => setType("Spindle")} // Set the third option
+        onPress={() => setType("Seat")} // Set the third option
         style={{ flexDirection: "row", alignItems: "center" }}
       >
         <View
@@ -245,7 +264,7 @@ const AddSpindleHistory = ({ navigation }) => {
             alignItems: "center",
           }}
         >
-          {type === "Spindle" && (
+          {type === "Seat" && (
             <View
               style={{
                 width: 12,
@@ -256,7 +275,7 @@ const AddSpindleHistory = ({ navigation }) => {
             />
           )}
         </View>
-        <Text>Spindle</Text>
+        <Text>Seat</Text>
       </TouchableOpacity>
       {/* Add similar inputs for other fields: oldSpindleNo, reason, status, type */}
       {!loading && (

@@ -19,6 +19,7 @@ const AddFeedback = ({ navigation }) => {
   const [responsible, setResponsible] = useState("");
   const [status, setStatus] = useState("");
   const [errormess, setErrormess] = useState("");
+  const [machineNumbers, setMachineNumbers] = useState([]);
 
   // const statusOptions = [
   //   { label: "OK", value: "OK" },

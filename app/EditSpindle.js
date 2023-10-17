@@ -194,7 +194,7 @@ const EditSpindle = ({ route, navigation }) => {
         <Text>Bore</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => setType("Spindle")} // Set the third option
+        onPress={() => setType("Seat")} // Set the third option
         style={{ flexDirection: "row", alignItems: "center" }}
       >
         <View
@@ -210,7 +210,7 @@ const EditSpindle = ({ route, navigation }) => {
             alignItems: "center",
           }}
         >
-          {type === "Spindle" && (
+          {type === "Seat" && (
             <View
               style={{
                 width: 12,
@@ -221,7 +221,7 @@ const EditSpindle = ({ route, navigation }) => {
             />
           )}
         </View>
-        <Text>Spindle</Text>
+        <Text>Seat</Text>
       </TouchableOpacity>
       {/* Add similar inputs for other fields: oldSpindleNo, reason, status, type */}
 

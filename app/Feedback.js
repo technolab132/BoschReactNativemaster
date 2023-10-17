@@ -128,7 +128,7 @@ const Dashboard = ({ navigation, refreshData }) => {
     }
 
     fetchMachineNumbers();
-  }, []);
+  }, [machineNumbers]);
 
   return (
     <View>
@@ -161,11 +161,11 @@ const Dashboard = ({ navigation, refreshData }) => {
         ))}
       </Picker>
       {loading ? (
-        <ScrollView>
+        <ScrollView >
           <View
             style={{
               flex: 1,
-              padding: 20,
+              padding: 50,
               justifyContent: "center",
               alignItems: "center",
             }}
@@ -177,8 +177,8 @@ const Dashboard = ({ navigation, refreshData }) => {
         </ScrollView>
       ) : (
         <>
-          <ScrollView showsVerticalScrollIndicator={false}>
-            <View style={{ flex: 1, padding: 15, backgroundColor: "#fff" }}>
+          <ScrollView showsVerticalScrollIndicator={false} >
+            <View style={{ flex: 1, padding: 15,marginBottom:50, backgroundColor: "#fff" }}>
               {feedbackData
                 ?.slice()
                 .reverse()
@@ -290,19 +290,40 @@ const Dashboard = ({ navigation, refreshData }) => {
                         />
                         
                     </View>
-                    <Text
-                      style={{
-                        position: "absolute",
-                        top: 40,
-                        right: 0,
-                        margin: 5,
-                        padding: 2,
-                        backgroundColor: "#207272",
-                        color: "white",
-                      }}
-                    >
-                      {data.created_at ? data.created_at.slice(0, 10) : ""}
-                    </Text>
+                    {data.created_at && (
+                        <View
+                          style={{
+                            position: "absolute",
+                            top: 40,
+                            right: 0,
+                            margin: 5,
+                            padding: 2,
+                            
+                            color: "white",
+                          }}
+                        >
+                          <Text style={{padding:2,marginBottom:2,color:"#fff",backgroundColor: "#207272",}}>
+                            {" "}
+                            {new Date(data.created_at).toLocaleDateString(
+                              "en-IN",
+                              {
+                                timeZone: "Asia/Kolkata",
+                                dateStyle: "short",
+                              }
+                            )}
+                          </Text>
+                          <Text style={{backgroundColor: "#207272",padding:2,marginBottom:2,color:"#fff"}}>
+                            {" "}
+                            {new Date(data.created_at).toLocaleTimeString(
+                              "en-IN",
+                              {
+                                timeZone: "Asia/Kolkata",
+                                timeStyle: "short",
+                              }
+                            )}
+                          </Text>
+                        </View>
+                      )}
                     {canEditRecord(data) && (
                       <Text
                         onPress={() =>

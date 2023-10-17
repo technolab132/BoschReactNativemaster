@@ -38,7 +38,6 @@ const Account = ({ navigation }) => {
         .from("profiles")
         .select("*")
         .eq("id", user.session.user.id);
-      console.log(data);
 
       if (data) {
         setUsername(data[0].username);
