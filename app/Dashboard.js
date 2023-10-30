@@ -195,7 +195,7 @@ const Dashboard = ({ navigation, refreshData }) => {
         </ScrollView>
       ) : (
         <>
-          <ScrollView showsVerticalScrollIndicator={false}>
+          <ScrollView showsVerticalScrollIndicator={true}>
             <View
               style={{
                 flex: 1,

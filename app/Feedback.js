@@ -177,7 +177,8 @@ const Dashboard = ({ navigation, refreshData }) => {
         </ScrollView>
       ) : (
         <>
-          <ScrollView showsVerticalScrollIndicator={false} >
+          <ScrollView showsVerticalScrollIndicator={true}  indicatorStyle="white"
+ >
             <View style={{ flex: 1, padding: 15,marginBottom:50, backgroundColor: "#fff" }}>
               {feedbackData
                 ?.slice()
