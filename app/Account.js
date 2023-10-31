@@ -77,7 +77,7 @@ const Account = ({ navigation }) => {
         throw error;
       }
       setLoading(false);
-      navigation.navigate("Dashboard");
+      navigation.navigate("Feedback");
     } catch (error) {
       console.log(error);
     } finally {

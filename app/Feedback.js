@@ -179,7 +179,7 @@ const Dashboard = ({ navigation, refreshData }) => {
         <>
           <ScrollView showsVerticalScrollIndicator={true}  indicatorStyle="white"
  >
-            <View style={{ flex: 1, padding: 15,marginBottom:50, backgroundColor: "#fff" }}>
+            <View style={{ flex: 1, padding: 4,marginBottom:50, backgroundColor: "#fff" }}>
               {feedbackData
                 ?.slice()
                 .reverse()
@@ -205,7 +205,8 @@ const Dashboard = ({ navigation, refreshData }) => {
                     style={{
                       padding: 15,
                       backgroundColor: "#d9d9d9",
-                      marginBottom: 10,
+                      marginBottom: 4,
+                      borderRadius:4
                     }}
                   >
                     <Text style={{ paddingVertical: 4 }}>
@@ -214,10 +215,10 @@ const Dashboard = ({ navigation, refreshData }) => {
                         {data["machine_no"]}
                       </Text>
                     </Text>
-                    <Text style={{ paddingVertical: 4 }}>
+                    <Text style={{ paddingVertical: 4, paddingRight:80 }}>
                       Problem : {data["problem"]}
                     </Text>
-                    <Text style={{ paddingVertical: 4 }}>
+                    <Text style={{ paddingVertical: 4,paddingRight:80 }}>
                       Action : {data["action"]}
                     </Text>
                     <Text style={{ paddingVertical: 4 }}>
@@ -233,6 +234,7 @@ const Dashboard = ({ navigation, refreshData }) => {
                           position: "absolute",
                           top: 0,
                           right: 0,
+                          borderRadius:4
                         }}
                       >
                         {data["status"]}
@@ -247,6 +249,7 @@ const Dashboard = ({ navigation, refreshData }) => {
                           position: "absolute",
                           top: 0,
                           right: 0,
+                          borderRadius:4
                         }}
                       >
                         {data["status"]}
@@ -261,6 +264,7 @@ const Dashboard = ({ navigation, refreshData }) => {
                           position: "absolute",
                           top: 0,
                           right: 0,
+                          borderRadius:4
                         }}
                       >
                         {data["status"]}
@@ -277,7 +281,11 @@ const Dashboard = ({ navigation, refreshData }) => {
                         margin: 10,
                       }}
                     >
-                      <Text>{data.profiles?.username}</Text>
+                      <Text style={{
+                          fontSize:12,
+                          fontWeight: "bold",
+                          color:"gray"
+                        }}>{data.profiles?.full_name}</Text>
                       <Icon
                         name="person"
                         size={15}
@@ -300,10 +308,11 @@ const Dashboard = ({ navigation, refreshData }) => {
                             margin: 5,
                             padding: 2,
                             
+                            
                             color: "white",
                           }}
                         >
-                          <Text style={{padding:2,marginBottom:2,color:"#fff",backgroundColor: "#207272",}}>
+                          <Text style={{padding:2,marginBottom:2,color:"#fff",backgroundColor: "#207272",borderRadius:4,}}>
                             {" "}
                             {new Date(data.created_at).toLocaleDateString(
                               "en-IN",
@@ -313,7 +322,7 @@ const Dashboard = ({ navigation, refreshData }) => {
                               }
                             )}
                           </Text>
-                          <Text style={{backgroundColor: "#207272",padding:2,marginBottom:2,color:"#fff"}}>
+                          <Text style={{backgroundColor: "#207272",padding:2,marginBottom:2,color:"#fff",borderRadius:4,}}>
                             {" "}
                             {new Date(data.created_at).toLocaleTimeString(
                               "en-IN",
@@ -325,7 +334,7 @@ const Dashboard = ({ navigation, refreshData }) => {
                           </Text>
                         </View>
                       )}
-                    {canEditRecord(data) && (
+                    {canEditRecord(data) ? (
                       <Text
                         onPress={() =>
                           navigation.navigate("EditFeedback", {
@@ -340,6 +349,10 @@ const Dashboard = ({ navigation, refreshData }) => {
                           size={20}
                           style={{ paddingTop: 15 }}
                         />
+                      </Text>
+                    ) : (
+                      <Text>
+                      {" "}
                       </Text>
                     )}
                   </View>

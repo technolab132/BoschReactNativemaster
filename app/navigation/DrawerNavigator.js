@@ -41,7 +41,17 @@ const DrawerNavigator = () => {
             // <Text>Hi</Text>
           ),
           headerRight : () => (
-            <Text>Dashboard</Text>
+            <Image
+              style={{
+                width: 120,
+                height: 40,
+                objectFit: "contain",
+                position: "absolute",
+                right:0,
+              
+              }}
+              source={require("../../assets/logo.png")}
+            />
           )
         }}
       />

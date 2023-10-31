@@ -199,7 +199,7 @@ const Dashboard = ({ navigation, refreshData }) => {
             <View
               style={{
                 flex: 1,
-                padding: 15,
+                padding: 4,
                 backgroundColor: "#fff",
                 marginBottom: 50,
               }}
@@ -208,19 +208,16 @@ const Dashboard = ({ navigation, refreshData }) => {
                 ?.slice()
                 .reverse()
                 .map((data, index) => (
-                  <View
-                    key={index}
-                    style={{
-                      backgroundColor: "#d9d9d9",
-                      marginBottom: 10,
-                    }}
-                  >
+                  
                     <View
                       key={index}
                       style={{
                         padding: 15,
                         backgroundColor: "#d9d9d9",
-                        marginBottom: 10,
+                        marginBottom: 4,
+                        borderRadius:4,
+                        
+                        
                       }}
                     >
                       <Text style={{ paddingVertical: 4 }}>
@@ -229,10 +226,10 @@ const Dashboard = ({ navigation, refreshData }) => {
                           {data["machine_no"]}
                         </Text>
                       </Text>
-                      <Text style={{ paddingVertical: 5 }}>
+                      <Text style={{ paddingVertical: 4 }}>
                         New Spindle No : {data["new_spindle_no"]}
                       </Text>
-                      <Text style={{ paddingVertical: 5 }}>
+                      <Text style={{ paddingVertical: 4 }}>
                         Old Spindle No : {data["old_spindle_no"]}
                       </Text>
                       {/* <Text style={{ paddingVertical: 5 }}>Status : </Text> */}
@@ -245,6 +242,7 @@ const Dashboard = ({ navigation, refreshData }) => {
                             position: "absolute",
                             top: 0,
                             right: 0,
+                            borderRadius:4
                           }}
                         >
                           {data["status"]}
@@ -259,6 +257,7 @@ const Dashboard = ({ navigation, refreshData }) => {
                             position: "absolute",
                             top: 0,
                             right: 0,
+                            borderRadius:4
                           }}
                         >
                           {data["status"]}
@@ -273,16 +272,17 @@ const Dashboard = ({ navigation, refreshData }) => {
                             position: "absolute",
                             top: 0,
                             right: 0,
+                            borderRadius:4
                           }}
                         >
                           {data["status"]}
                         </Text>
                       )}
 
-                      <Text style={{ paddingVertical: 5 }}>
+                      <Text style={{ paddingVertical: 4 }}>
                         Reason : {data["reason"]}
                       </Text>
-                      <Text style={{ paddingVertical: 5 }}>
+                      <Text style={{ paddingVertical: 4 }}>
                         Type: {data["type"]}
                       </Text>
                       <View
@@ -295,7 +295,11 @@ const Dashboard = ({ navigation, refreshData }) => {
                           margin: 10,
                         }}
                       >
-                        <Text>{data.profiles?.username}</Text>
+                        <Text style={{
+                          fontSize:12,
+                          fontWeight: "bold",
+                          color:"gray"
+                        }}>{data.profiles?.full_name}</Text>
                         <Icon
                           name="person"
                           size={15}
@@ -320,7 +324,7 @@ const Dashboard = ({ navigation, refreshData }) => {
                             color: "white",
                           }}
                         >
-                          <Text style={{padding:2,marginBottom:2,color:"#fff",backgroundColor: "#207272",}}>
+                          <Text style={{padding:2,marginBottom:2,color:"#fff",backgroundColor: "#207272",borderRadius:4}}>
                             {" "}
                             {new Date(data.created_at).toLocaleDateString(
                               "en-IN",
@@ -330,7 +334,7 @@ const Dashboard = ({ navigation, refreshData }) => {
                               }
                             )}
                           </Text>
-                          <Text style={{backgroundColor: "#207272",padding:2,marginBottom:2,color:"#fff"}}>
+                          <Text style={{backgroundColor: "#207272",padding:2,marginBottom:2,color:"#fff",borderRadius:4}}>
                             {" "}
                             {new Date(data.created_at).toLocaleTimeString(
                               "en-IN",
@@ -342,7 +346,7 @@ const Dashboard = ({ navigation, refreshData }) => {
                           </Text>
                         </View>
                       )}
-                      {canEditRecord(data) && (
+                      {canEditRecord(data) ? (
                         <Text
                           onPress={() =>
                             navigation.navigate("EditSpindle", {
@@ -358,9 +362,12 @@ const Dashboard = ({ navigation, refreshData }) => {
                             style={{ paddingTop: 15 }}
                           />
                         </Text>
+                      ): (
+                        <Text>
+                        {" "}
+                        </Text>
                       )}
                     </View>
-                  </View>
                 ))}
             </View>
           </ScrollView>
